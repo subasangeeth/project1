@@ -6,51 +6,54 @@
     <title>Sign up</title>
 </head>
 <body>
-    <!-- Form for entering email to send OTP -->
+   
     <form id="sendOtpForm">
         <h1>Create Account</h1>
 
-        <label for="name">Username</label>
+        <label for="name">Set Username</label>
         <input type="text" name="name" id="name" placeholder="Enter username" required>
-
+        <br>
+         <label for="password">Set Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+		<br>
         <label for="email">Email</label>
         <input type="email" name="email" id="email" placeholder="Enter your email" required>
+       
         
-         <label for="password">Email</label>
-        <input type="password" name="password" id="password" placeholder="Enter your password" required>
 
         <button type="button" onclick="sendOTP()">Send OTP</button>
     </form>
 
-    <!-- Form for verifying OTP -->
-    <form action="/verify" method="get">
+   
+    <form action="/newUser" method="get">
         <label for="otp">OTP</label>
         <input type="text" name="otp" id="otp" placeholder="Enter OTP" required>
-
+<br>
         <button type="submit">VERIFY</button>
     </form>
 
     <script>
     function sendOTP() {
         const email = document.getElementById('email').value;
-        const name = document.getElementById('name').value;
-        const password = document.getElementById('password').value;
+       const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
 
         if (email && name) {
-            // Send a POST request to the backend to send OTP
+            // send Details in json to the EndPoint to : )
             fetch('/send-otp', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // Correct Content-Type for JSON
+                    'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify({ email: email, name: name, password: password }) // JSON payload
+                body: JSON.stringify({ email: email, name: name, password: password }) // JSON payload : )
             })
             .then(response => response.text())
             .then(data => {
-                alert(data); // Display success or failure message
+                alert("OTP SEND"); 
             })
-        }      
+           
     }
+        }
 
     </script>
 </body>

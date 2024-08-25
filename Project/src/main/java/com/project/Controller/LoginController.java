@@ -3,16 +3,11 @@ package com.project.Controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.Model.Students;
@@ -34,65 +29,51 @@ public class LoginController {
 	 String otpv;
 	
 	
-	@GetMapping("/student")
+	@GetMapping("/")
 	public String Login()
 	{
 		return "student.html";
 	}
 	
 	
-	@GetMapping("/home")
+	@GetMapping("/student")
 	public String studetLogin(@RequestParam String rollno, @RequestParam String password)
-	{
-		
-	boolean b =studentservice.StudentLogin(rollno, password);
+	{	
+		boolean o =studentservice.StudentLogin(rollno, password);
 	 
-	if(b==true)
+	if(o==true)
 		return "Home.html";
 	 	else
-		return "login.html";
+		return "student.html";
 	}
 	
-	
-	
-	
-	@PostMapping("/student")
-	public ResponseEntity<Students> addStudent(@RequestParam String rollno, @RequestParam String name, @RequestParam String password) {
+
+	@PostMapping("/newstudent")
+	public String addStudent(@RequestParam String rollno, @RequestParam String name, @RequestParam String password) {
 	  
 		Students students = new Students(rollno, name, password,"Student");
 	   
-		Students s = studentservice.addStudent(students);
+		studentservice.addStudent(students);
 	   
-		return ResponseEntity.status(HttpStatus.OK).body(s);
+		return "Home.html";
+	}
+	
+	
+	@GetMapping("/user")
+	public String guestLogin(@RequestParam String email, @RequestParam String password)
+	{	
+		boolean o =otheruserservice.userLogin(email, password);
+	 
+	if(o==true)
+		return "Home.html";
+	 	else
+		return "guest.html";
 	}
 	
 	
 	
-	  @PostMapping("/send-otp")
-	    @ResponseBody
-	    public String sendOTP(@RequestBody Map<String, String> payload) {
-		  
-		 
-		  user.setEmail(payload.get("email"));
-		  user.setName(payload.get("name"));
-		  user.setPassword(payload.get("password"));
-		  
-		System.out.println(payload.get("name"));
-		System.out.println(payload.get("email"));
-		System.out.println(payload.get("password"));
-		
-		otpv=otpverify.generateOtp();
-		otpverify.sendOtpEmail(payload.get("email"), otpv);
-		
-		
-		return null;
-	  }
-
-	      
-
-	   
-	    @GetMapping("/verify")
-	    public String verifyOTP(@RequestParam("otp") String otp) {
+	  @GetMapping("/newUser")
+	    public String addUser(@RequestParam String otp) {
 			if(otpv.equals(otp))
 			{
 			otheruserservice.addUser(user);
@@ -105,6 +86,27 @@ public class LoginController {
 	      
 	    }
 
+	
+	
+	//OTP 
+	  @PostMapping("/send-otp")
+	    @ResponseBody
+	    public String sendOTP(@RequestBody Map<String, String> payload) {
+		  
+		 user.setEmail(payload.get("email"));
+		  user.setName(payload.get("name"));
+		   user.setPassword(payload.get("password"));
+		   user.setRole("guest");
+		  
+		otpv=otpverify.generateOtp();
+		otpverify.sendOtpEmail(payload.get("email"), otpv);
+		
+		
+		return null;
+	  }
+
+
+	  
 	}
 	
 
