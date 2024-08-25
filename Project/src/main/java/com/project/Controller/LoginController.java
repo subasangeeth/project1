@@ -88,7 +88,7 @@ public class LoginController {
 
 	
 	
-	//OTP 
+	//OTP VERIFICATION
 	  @PostMapping("/send-otp")
 	    @ResponseBody
 	    public String sendOTP(@RequestBody Map<String, String> payload) {
