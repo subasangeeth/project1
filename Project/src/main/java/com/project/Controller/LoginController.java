@@ -21,11 +21,17 @@ public class LoginController {
 	
 	@Autowired
 	studentService studentservice;
+
+
 	@Autowired
 	otherUsersService otheruserservice;
+
+
 	@Autowired
 	OTPverify otpverify;
+
 	 otherUsers user=new otherUsers();
+
 	 String otpv;
 	
 	

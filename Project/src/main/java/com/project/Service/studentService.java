@@ -15,21 +15,30 @@ public class studentService {
 	StudentRepo repo;
 	
 	public studentService(StudentRepo repo) {
+
 		super();
 		this.repo = repo;
 	}
 
+
 	public Students addStudent(Students students)
 	{
-		
+
 		return repo.save(students);
+
 	}
 	
+
+
+
 	public boolean StudentLogin(String rollno, String password)
 	{
 		Students student=repo.findByrollno(rollno);
+
 		   if (student != null && student.getPassword().equals(password)) {
+
 	            return true;
+
 	        }
 	        return false;
 	}

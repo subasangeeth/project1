@@ -19,21 +19,29 @@ public class OTPverify {
 
 	    public String generateOtp() {
 	        SecureRandom random = new SecureRandom();
+
 	        StringBuilder otp = new StringBuilder();
-	        for (int i = 0; i < OTP_LENGTH; i++) {
+
+			for (int i = 0; i < OTP_LENGTH; i++) {
 	            otp.append(random.nextInt(10));
 	        }
 	        
+
 	        OTP=otp.toString();
 	        return otp.toString();
 	    }
 
 	    public void sendOtpEmail(String toEmail, String otp) {
+
 	        SimpleMailMessage message = new SimpleMailMessage();
+
 	        message.setTo(toEmail);
+
 	        message.setSubject("OTP VERFICATION");
+
 	        message.setText("OTP : " + otp);
-	        mailSender.send(message);
+
+			mailSender.send(message);
 	    }
 	}
 
