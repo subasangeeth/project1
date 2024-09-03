@@ -38,19 +38,20 @@ public class LoginController {
 	@GetMapping("/")
 	public String Login()
 	{
-		return "student.html";
+		return "login.html";
 	}
 	
 	
+
 	@GetMapping("/student")
-	public String studetLogin(@RequestParam String rollno, @RequestParam String password)
-	{	
-		boolean o =studentservice.StudentLogin(rollno, password);
-	 
-	if(o==true)
-		return "Home.html";
-	 	else
-		return "student.html";
+	public String studentLogn(@RequestParam String rollno,@RequestParam String password)
+	{
+		boolean o =studentservice.StudentLogin(rollno,password);
+
+		if(o==true)
+			return "Home.html";
+		else
+			return "login.html";
 	}
 	
 
@@ -66,18 +67,18 @@ public class LoginController {
 	
 	
 	@GetMapping("/user")
-	public String guestLogin(@RequestParam String email, @RequestParam String password)
-	{	
-		boolean o =otheruserservice.userLogin(email, password);
-	 
+	public String guestLogin(@RequestParam String email,@RequestParam("pass") String password)
+	{
+		boolean o =otheruserservice.userLogin(email,password);
+
 	if(o==true)
 		return "Home.html";
 	 	else
-		return "guest.html";
+		return "login.html";
 	}
-	
-	
-	
+
+
+
 	  @GetMapping("/newUser")
 	    public String addUser(@RequestParam String otp) {
 			if(otpv.equals(otp))

@@ -1,0 +1,247 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body,input{
+    font-family: "Poppins",sans-serif;
+}
+
+
+
+
+
+main{
+width: 100%;
+min-height: 100vh;
+overflow: hidden;
+background-color: rgb(213, 243, 166);
+padding: 2rem;
+align-items: center;
+display: flex;
+justify-content: center;
+}
+
+.box{
+position: relative;
+width: 100%;
+height: 100%;
+max-width: 1024px;
+height: 640px;
+background:rgb(255, 255, 255);
+border-radius: 3.3rem;
+box-shadow: 0 60px 40px -30px rgba(0, 0,0,0.27);
+}
+
+.insidebox{
+position: absolute;
+height: calc(100% - 4.1rem);
+width: calc(100% - 4.1rem);
+top: 2rem;
+left:2rem;
+padding-right: 3px;
+}
+
+
+.forms-wrap{
+    position: absolute;
+    height: 100%;
+    width: 45%;
+    top: 4%;
+    left:4%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    transition: 0.8s ease-in-out;
+
+
+}
+
+.bgimg{
+    background-color: rgb(220, 216, 253);
+    height: 100%;
+    position: absolute;
+    width: 55%;
+    left: 45%;
+    top: 0;
+    border-radius:2rem ;
+    align-items: center;
+    transition: 0.8s ease-in-out;
+
+}
+
+form{
+    
+    max-width: 350px;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    transition: opacity 0.02s 0.4s;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+.logo h4{
+    font-size: 1.1rem;
+    margin-top: -9px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: black;
+    padding-left: 17px;
+}
+
+.heading h2{
+    font-family: "Poppins",sans-serif;
+    font-weight: 700;
+    color: black;
+
+}
+
+.heading h6{
+    color: grey;
+    font-weight: 400;
+    font-size: 0.75rem;
+    display: inline;
+}
+
+.toggle{
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: 0.3sec;
+}
+
+.toggle:hover{
+    color: rgb(153, 146, 255);
+
+}
+
+
+.input-wrap{
+    position: relative;
+    height: 37px;
+    margin-bottom: 1.4rem;
+}
+
+.input-field{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:none;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #bbb;
+    padding: 0;
+    font-size: 0.95rem;
+    color: black;
+    transition: 0.4s;
+}
+
+label{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    color: #bbb;
+    pointer-events: none;
+    transition: 0.4s;
+}
+.input-field.active{
+    border-bottom-color: rgb(0, 0, 0);
+}
+
+.input-field.active + label{
+    font-size: 12px;
+    top: 2px;
+}
+
+button{
+    display: inline-block;
+    width: 100%;
+    height: 43px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor:pointer ;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    transition: 0.3s;
+}
+
+button:hover{
+    background-color: rgb(0, 155, 59) ;
+}
+.text{
+    display: flex;
+    padding-left: 10px;
+    color: grey;
+    font-weight: 400;
+    font-size: 0.9rem;
+    display: inline;
+    padding-bottom: 20px;
+
+}
+
+main.guest-login-form  .forms-wrap{
+    left: 55%;
+}
+
+main.guest-login-form  .bgimg{
+    left: 0%;
+}
+
+
+form.guest-login-form {
+    opacity: 0;
+    pointer-events: none;
+}
+
+main.guest-login-form .forms-wrap{
+    left: 55%;
+    padding-left: 2.5%;
+    max-width: 450px;
+    
+}
+
+main.guest-login-form .bgimg{
+    left: 0%;
+    
+}
+
+
+main.guest-login-form  form.student-login-form{
+    opacity: 0;
+    pointer-events: none;
+}
+
+main.guest-login-form form.guest-login-form{
+    opacity: 1;
+    pointer-events: all;
+
+}
+
+
+
+
+
+
+form.guest-login-form{
+    padding-left: 9%;
+}
