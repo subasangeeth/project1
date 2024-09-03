@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+</head>
+<body>
+   
+    <form id="sendOtpForm">
+        <h1>Create Account</h1>
+
+        <label for="name">Set Username</label>
+        <input type="text" name="name" id="name" placeholder="Enter username" required>
+        <br>
+         <label for="password">Set Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+		<br>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+       
+        
+
+        <button type="button" onclick="sendOTP()">Send OTP</button>
+    </form>
+
+   
+    <form action="/newUser" method="get">
+        <label for="otp">OTP</label>
+        <input type="text" name="otp" id="otp" placeholder="Enter OTP" required>
+<br>
+        <button type="submit">VERIFY</button>
+    </form>
+
+    <script>
+    function sendOTP() {
+        const email = document.getElementById('email').value;
+       const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+
+        if (email && name) {
+            // send Details in json to the EndPoint to : )
+            fetch('/send-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({ email: email, name: name, password: password }) // JSON payload : )
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("OTP SEND"); 
+            })
+           
+    }
+        }
+
+    </script>
+</body>
+</html>

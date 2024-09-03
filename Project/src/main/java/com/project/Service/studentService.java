@@ -23,6 +23,7 @@ public class studentService {
 
 	public Students addStudent(Students students)
 	{
+		//Students student=repo.findByrollno(students.getRollno());
 
 		return repo.save(students);
 
