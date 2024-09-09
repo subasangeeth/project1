@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            fetch('/api/username')
+                .then(response => response.json())  // Parse JSON response
+                .then(data => {
+                    var usernamee = data.username; // Fetch and store username
+                    document.getElementById("usernamee").textContent = usernamee; // Display in HTML
+                })
+                .catch(error => console.error('Error fetching username:', error));
+        });
+
+
+        async function loadPosts() {
+            try {
+                const response = await fetch('/all');
+                const posts = await response.json();
+                const postsContainer = document.getElementById('postsContainer');
+
+                postsContainer.innerHTML = '';
+
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    const postDate = new Date(post.date);
+                    postElement.innerHTML = `
+                        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+                            <img src="data:image/jpeg;base64,${post.image}" alt="Post Image" style="width: 100px; height: 100px;">
+                            <p>Posted by ${post.username}</p>
+                            <p>Posted at ${post.date}</p>
+                            <p>${post.description}</p>
+                            <div id="comments-${post.id}">
+                                <h4>Comments</h4>
+                                ${post.comments.map(comment => `
+                                    <p><strong>${comment.username}</strong>: ${comment.text}</p>
+                                `).join('')}
+                            </div>
+                            <input type="text" id="commentText-${post.id}" placeholder="Add a comment">
+                            <button onclick="addComment(${post.id})">Submit</button>
+                        </div>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // comment
+
+        async function addComment(postId) {
+            const commentText = document.getElementById(`commentText-${postId}`).value;
+            if (!commentText) {
+                alert('Please enter a comment!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/addComment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ postId: postId, comment: commentText})
+                });
+
+                if (response.ok) {
+                    alert('Comment added!');
+                    loadPosts(); // Reload posts to show the updated comments
+                } else {
+                    alert('Comment added!');
+                    loadPosts();
+                }
+            } catch (error) {
+                console.error('Error adding comment:', error);
+            }
+        }
+
+
+        loadPosts();
+    </script>
+
+
+</head>
+<body>
+<h1>Welcome, <span id="usernamee"></span>!</h1>
+
+
+<h1>All Posts</h1>
+<div id="postsContainer"></div>
+
+<form action="/addPost">
+    <button type="submit" name="addPost">Create Post</button>
+</form>
+
+</body>
+</html>

@@ -1,14 +1,15 @@
 package com.project.Controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import com.project.Repo.StudentRepo;
+import com.project.Repo.otherUserRepo;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.Model.Students;
 import com.project.Model.otherUsers;
@@ -17,10 +18,16 @@ import com.project.Service.studentService;
 import com.project.utils.OTPverify;
 
 @Controller
+@SessionAttributes("username")
 public class LoginController {
-	
+	@Autowired
+	StudentRepo studentRepo;
 	@Autowired
 	studentService studentservice;
+@Autowired
+otherUserRepo otherUserRepo;
+
+
 
 
 	@Autowired
@@ -29,10 +36,11 @@ public class LoginController {
 
 	@Autowired
 	OTPverify otpverify;
+	String otpv;
+
 
 	 otherUsers user=new otherUsers();
 
-	 String otpv;
 	
 	
 	@GetMapping("/")
@@ -40,22 +48,26 @@ public class LoginController {
 	{
 		return "login.html";
 	}
-	
-	
+
+
 
 	@GetMapping("/student")
-	public String studentLogn(@RequestParam String rollno,@RequestParam String password)
+	public String studentLogn(@RequestParam String rollno, @RequestParam String password, Model model)
 	{
 		boolean o =studentservice.StudentLogin(rollno,password);
 
-		if(o==true)
-			return "Home.html";
+		if(o==true) {
+			String username=studentRepo.findByrollno(rollno).getName();
+
+			return "home.html";
+		}
+
 		else
 			return "login.html";
 	}
 	
 
-	@PostMapping("/newstudent")
+	@GetMapping("/newstudent")
 	public String addStudent(@RequestParam String rollno, @RequestParam String name, @RequestParam String password) {
 	  
 		Students students = new Students(rollno, name, password,"Student");
@@ -67,12 +79,17 @@ public class LoginController {
 	
 	
 	@GetMapping("/user")
-	public String guestLogin(@RequestParam String email,@RequestParam("pass") String password)
+	public String guestLogin(@RequestParam String email,@RequestParam("pass") String password,Model model)
 	{
 		boolean o =otheruserservice.userLogin(email,password);
 
-	if(o==true)
+	if(o==true) {
+		String username= otherUserRepo.findByemail(email).getName();
+		model.addAttribute("username",username);
+
+		System.out.println(username);
 		return "Home.html";
+	}
 	 	else
 		return "login.html";
 	}
@@ -113,7 +130,25 @@ public class LoginController {
 	  }
 
 
-	  
+
+	@RestController
+	public class UserController {
+
+		@GetMapping("/api/username")
+		public Map<String, String> getUsername(HttpSession session) {
+			Map<String, String> response = new HashMap<>();
+			String username = (String) session.getAttribute("username"); // Get the username from session
+
+			if (username != null) {
+				response.put("username", username);
+			} else {
+				response.put("error", "Username not found in session");
+			}
+
+			return response;
+		}
+	}
+
 	}
 	
 
