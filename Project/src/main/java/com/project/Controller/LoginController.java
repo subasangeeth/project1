@@ -40,30 +40,37 @@ otherUserRepo otherUserRepo;
 
 
 	 otherUsers user=new otherUsers();
-
-	
-	
 	@GetMapping("/")
 	public String Login()
 	{
 		return "login.html";
 	}
+	
+	
+	@GetMapping("/loginAgain")
+	public String LoginAgain()
+	{
+		return "login.html";
+	}
 
-
+@GetMapping("/home")
+public String Home() {
+	return "home.html";
+}
 
 	@GetMapping("/student")
-	public String studentLogn(@RequestParam String rollno, @RequestParam String password, Model model)
+	public String studentLogn(@RequestParam String rollno, @RequestParam String password, Model model,HttpSession session)
 	{
 		boolean o =studentservice.StudentLogin(rollno,password);
 
 		if(o==true) {
 			String username=studentRepo.findByrollno(rollno).getName();
-
-			return "home.html";
+			session.setAttribute("username",username);
+			return "redirect:/home";
 		}
 
 		else
-			return "login.html";
+			return "redirect:/loginAgain";
 	}
 	
 
@@ -79,19 +86,18 @@ otherUserRepo otherUserRepo;
 	
 	
 	@GetMapping("/user")
-	public String guestLogin(@RequestParam String email,@RequestParam("pass") String password,Model model)
+	public String guestLogin(@RequestParam String email,@RequestParam("pass") String password,Model model,HttpSession session)
 	{
 		boolean o =otheruserservice.userLogin(email,password);
 
 	if(o==true) {
 		String username= otherUserRepo.findByemail(email).getName();
-		model.addAttribute("username",username);
-
+		session.setAttribute("username",username);
 		System.out.println(username);
-		return "Home.html";
+		return "redirect:/home";
 	}
 	 	else
-		return "login.html";
+		return "redirect:/loginAgain";
 	}
 
 
